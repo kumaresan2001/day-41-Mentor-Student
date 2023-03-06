@@ -9,7 +9,7 @@ app.use(express.json());
 let student = [];
 
 app.get("/", (req, res) => {
-  res.status(200).json("Welcome to Mentor and Student  database");
+  res.status(200).send("Welcome to Mentor and Student  database");
 });
 
 app.post("/create_mentor", async (req, res) => {

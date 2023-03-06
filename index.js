@@ -9,7 +9,7 @@ app.use(express.json());
 let student = [];
 
 app.get("/", (req, res) => {
-  res.status(200).send("Welcome to Mentor and Student  database");
+  res.status(200).json("Welcome to Mentor and Student  database");
 });
 
 app.post("/create_mentor", async (req, res) => {
@@ -18,10 +18,10 @@ app.post("/create_mentor", async (req, res) => {
     const db = connection.db("day41");
     const mentor = await db.collection("mentors").insertOne(req.body);
     await connection.close();
-    res.json({ message: "Mentor created successful" });
+    res.json("Mentor created successful");
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 
@@ -31,10 +31,10 @@ app.post("/create_student", async (req, res) => {
     const db = connection.db("day41");
     const student = await db.collection("students").insertOne(req.body);
     await connection.close();
-    res.json({ message: "Student created successful" });
+    res.json("Student created successful");
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 
@@ -48,7 +48,7 @@ app.get("/mentors", async (req, res) => {
     res.json(mentor);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 
@@ -63,12 +63,12 @@ app.get("/students", async (req, res) => {
     res.json(student);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 
 /** assign student to a mentor */
-app.put("/assign_student/:id", async (req, res) => {
+app.put("/assign_mentor/:id", async (req, res) => {
   try {
     const connection = await mongoclient.connect(URL);
     const db = connection.db("day41");
@@ -87,11 +87,11 @@ app.put("/assign_student/:id", async (req, res) => {
 
       res.json(mentor);
     } else {
-      res.status(404).json({ message: "mentor not found" });
+      res.status(404).json("mentor not found");
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 
@@ -108,15 +108,15 @@ app.get("/mentor_student/:id", async (req, res) => {
     if (mentor) {
       res.json(`students name : ${mentor.student} assigned to ${mentor.name}`);
     } else {
-      res.status(404).json({ message: "Mentor not found" });
+      res.status(404).json("Mentor not found");
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 /** assign or change mentor for student */
-app.put("/assign_change_mentor/:id", async (req, res) => {
+app.put("/assign_change_student/:id", async (req, res) => {
   try {
     const connection = await mongoclient.connect(URL);
     const db = connection.db("day41");
@@ -135,13 +135,13 @@ app.put("/assign_change_mentor/:id", async (req, res) => {
 
       res.json(student);
     } else {
-      res.status(404).json({ message: "Student not found" });
+      res.status(404).json("Student not found");
     }
     await connection.close();
     res.json(student);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 
@@ -155,11 +155,11 @@ app.delete("/mentor_delete/:id", async (req, res) => {
       .deleteOne({ _id: new mongodb.ObjectId(req.params.id) });
     await connection.close();
     if (mentor) {
-      res.status(404).json({ message: "Mentor delete successful" });
+      res.status(404).json("Mentor delete successful");
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 // detete to student
@@ -172,11 +172,11 @@ app.delete("/student_delete/:id", async (req, res) => {
       .deleteOne({ _id: new mongodb.ObjectId(req.params.id) });
     await connection.close();
     if (student) {
-      res.status(404).json({ message: "students delete successful" });
+      res.status(404).json("students delete successful");
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json("Something went wrong");
   }
 });
 app.listen(process.env.PORT || 3500);

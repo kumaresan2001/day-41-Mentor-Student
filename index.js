@@ -10,7 +10,7 @@ let student = [];
 
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Welcome to Mentor and Student assigning with database",
+    message: "Welcome to Mentor and Student  database",
   });
 });
 
